@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 11:57:20 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/23 12:21:03 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/23 18:30:43 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,18 @@
 
 int			main(int ac, char **av)
 {
-	if (arg_parsing(ac, av))
+	int		i;
+
+	i = 0;
+	if (ac > 1)
 	{
-		ft_printf("Good argument(s).\n");
+		while (++i < ac)
+		{
+			if (ft_stratcmp(av[i], "s", '.'))
+				ft_printf("%s is valid.\n", av[i]);
+			else
+				ft_printf("%s is not valid.\n", av[i]);
+		}
 	}
 	else
 	{

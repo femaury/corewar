@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_arg_parsing.c                                  :+:      :+:    :+:   */
+/*   ft_stratcmp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 12:19:50 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/23 12:20:29 by femaury          ###   ########.fr       */
+/*   Created: 2018/07/23 18:20:15 by femaury           #+#    #+#             */
+/*   Updated: 2018/07/23 18:28:17 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-static int	file_ext(char *av)
+int		ft_stratcmp(const char *s, const char *ref, char mark)
 {
-	int		i;
 	char	*cmp;
 
-	i = 0;
-	if (!(cmp = ft_strrchr(av, '.')))
+	if (!(cmp = ft_strrchr(s, mark)))
 		return (0);
-	if (ft_strcmp(cmp, ".s"))
+	if (ft_strcmp(cmp + 1, ref))
 		return (0);
-	return (1);
-}
-
-int			arg_parsing(int ac, char **av)
-{
-	int		i;
-
-	i = 0;
-	if (ac == 1)
-		return (0);
-	while (++i < ac)
-		if (!file_ext(av[i]))
-			return (0);
 	return (1);
 }

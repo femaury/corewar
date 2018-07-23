@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 15:07:51 by femaury           #+#    #+#             */
-/*   Updated: 2018/06/28 14:37:02 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/23 18:27:00 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char			*ft_strnstr(const char *haystack, const char *needle,
 		size_t len);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_stratcmp(const char *s, const char *ref, char mark);
 
 void			ft_strdel(char **as);
 void			ft_tabdel(void **tab, size_t len);
