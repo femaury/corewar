@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_main.c                                         :+:      :+:    :+:   */
+/*   ft_revbits.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 11:57:20 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 15:55:24 by femaury          ###   ########.fr       */
+/*   Created: 2018/07/24 15:45:34 by femaury           #+#    #+#             */
+/*   Updated: 2018/07/24 15:47:15 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int			main(int ac, char **av)
+unsigned int	revbits(unsigned int x)
 {
-	int		i;
-
-	i = 0;
-	if (ac > 1)
-		while (++i < ac)
-		{
-			if (ft_stratcmp(av[i], "s", '.'))
-				parse_file(av[i]);
-			else
-				ft_printf("%s is not an asm file.\n", av[i]);
-		}
-	else
-		ft_printf("usage: ./asm file_name.s\n"
-				"\tCan take multiple files.\n"
-				"\tAll files need a .s extension.\n");
-	return (0);
+	return ((x << 24) | (( x & 0xff00 ) << 8)
+			| (( x >> 8) & 0xff00 ) | ( x >> 24 ));
 }

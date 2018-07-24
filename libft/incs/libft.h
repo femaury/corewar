@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 15:07:51 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/23 18:27:00 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 15:47:07 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void			*ft_memchr(const void *s, int c, size_t n);
 void			*ft_memalloc(size_t size);
 void			ft_memdel(void **ap);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
+
+unsigned int	revbits(unsigned int x);
 
 float			ft_sqrt(float nb);
 int				ft_pow(int n, int power);
