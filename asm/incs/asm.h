@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 17:54:29 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 19:58:47 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,17 @@
 */
 
 # define E_OPEN 				1
-# define E_HEAD_LN 				2
+# define E_HEAD_MISS 			2
 # define E_HEAD_CMD 			3
+# define E_NAME_OPEN			4
+# define E_NAME_LEN				5
+# define E_NAME_EXTRA			6
+# define E_COMM_OPEN			7
+# define E_COMM_LEN				8
+# define E_COMM_EXTRA			9
 
-# define S_NAME					1
-# define S_COMM					2
+# define S_NAME					(1 << 0)
+# define S_COMM					(1 << 1)
 
 # define IND_SIZE				2
 # define REG_SIZE				4
@@ -108,5 +114,7 @@ typedef struct		s_asm_file
 /*
 **	------------------------------- ASM FUNCTIONS ------------------------------
 */
+
+int					parse_file(char *file);
 
 #endif

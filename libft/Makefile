@@ -6,7 +6,7 @@
 #    By: femaury <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/18 20:03:09 by femaury           #+#    #+#              #
-#    Updated: 2018/07/24 17:19:42 by femaury          ###   ########.fr        #
+#    Updated: 2018/07/24 19:39:10 by femaury          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC_NAME = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		   ft_strisonly.c ft_pow.c ft_tabdel.c ft_strisonlyc.c ft_strdupto.c \
 		   ft_strtabsize.c ft_lstappend.c ft_lstdelfirst.c ft_lstcpy.c \
 		   ft_strjoin_split.c ft_strisdigit.c ft_strchrrev.c ft_stratcmp.c \
-		   ft_revbits.c ft_strcpyto.c
+		   ft_revbits.c ft_strcpyto.c ft_strcatto.c
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
