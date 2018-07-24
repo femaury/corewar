@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:35:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:34:01 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 22:56:17 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@ static void	init_file(t_asm_file *fl)
 	fl->ch = 0;
 	fl->status = 0;
 	fl->exit = 0;
+	fl->onull = 0;
 	fl->hd.magic = ft_revbits(COREWAR_EXEC_MAGIC);
 	ft_bzero((void *)fl->hd.prog_name, PROG_NAME_LENGTH + 1);
 	fl->hd.prog_size = 0;
 	ft_bzero((void *)fl->hd.comment, COMMENT_LENGTH + 1);
 }
 
-int			parse_file(char *file)
+int			parse_file(char *file_name)
 {
 	int			fd;
 	t_asm_file	fl;
 
 	init_file(&fl);
-	if ((fd = open(file, O_RDONLY)) < 0)
+	if ((fd = open(file_name, O_RDONLY)) < 0)
 		return (exit_parsing(&fl, E_OPEN));
 	if (!parse_header(&fl, fd))
 		return (0);
-	ft_printf("Header successfully parsed!\n");
-	ft_printf("name: %s\ncomment: %s\n\n", fl.hd.prog_name, fl.hd.comment);
+	create_binary(&fl, file_name);
 	close(fd);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:34:13 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 22:56:30 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 
 /*
 **	------------------------------- MY LIBRARIES -------------------------------
@@ -107,6 +108,7 @@ typedef struct		s_asm_file
 	unsigned int	ch;
 	unsigned int	status;
 	unsigned int	exit;
+	unsigned int	onull;
 	t_header		hd;
 }					t_asm_file;
 
@@ -114,8 +116,9 @@ typedef struct		s_asm_file
 **	------------------------------- ASM FUNCTIONS ------------------------------
 */
 
-int					parse_file(char *file);
+int					parse_file(char *file_name);
 int					parse_header(t_asm_file *fl, int fd);
 int					exit_parsing(t_asm_file *fl, int er);
+void				create_binary(t_asm_file *fl, char *file_name);
 
 #endif
