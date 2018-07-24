@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 14:55:03 by femaury           #+#    #+#             */
-/*   Updated: 2018/06/02 16:49:49 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 22:09:19 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include "libft.h"
 
-# define BUFF_SIZE 42
+# define GNL_BUFF_SIZE 42
 # define STOP_CHAR '\n'
 
 int		ft_gnl(const int fd, char **line);

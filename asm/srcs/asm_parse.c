@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:35:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 20:17:28 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 22:00:32 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	init_file(t_asm_file *fl)
 	fl->ln = 0;
 	fl->ch = 0;
 	fl->status = 0;
-	fl->multi_ln = 0;
 	fl->exit = 0;
 	fl->hd.magic = ft_revbits(COREWAR_EXEC_MAGIC);
 	ft_bzero((void *)fl->hd.prog_name, PROG_NAME_LENGTH + 1);
@@ -65,16 +64,19 @@ static int	parse_name(t_asm_file *fl, char *ln, int fd)
 		return (exit_parsing(fl, E_NAME_EXTRA));
 	if (!ln[fl->ch])
 	{
+		ft_strcat(fl->hd.prog_name, "\n");
 		while (++fl->ln && ft_gnl(fd, &ln) > 0 && !ft_strhasc(ln, '"'))
 		{
 			if (ft_strlen(ln) + ft_strlen(fl->hd.prog_name) > PROG_NAME_LENGTH)
 				return (exit_parsing(fl, E_NAME_LEN));
 			ft_strcat(fl->hd.prog_name, ln);
+			ft_strcat(fl->hd.prog_name, "\n");
 			ft_strdel(&ln);
 		}
 		if (ft_strhasc(ln, '"') && *(ft_strchr(ln, '"') + 1))
 			return (exit_parsing(fl, E_NAME_EXTRA));
 		ft_strcatto(fl->hd.prog_name, ln, '"');
+		ft_strdel(&ln);
 	}
 	fl->status |= S_NAME;
 	return (1);
@@ -94,16 +96,19 @@ static int	parse_comment(t_asm_file *fl, char *ln, int fd)
 		return (exit_parsing(fl, E_COMM_EXTRA));
 	if (!ln[fl->ch])
 	{
+		ft_strcat(fl->hd.comment, "\n");
 		while (++fl->ln && ft_gnl(fd, &ln) > 0 && !ft_strhasc(ln, '"'))
 		{
 			if (ft_strlen(ln) + ft_strlen(fl->hd.comment) > COMMENT_LENGTH)
 				return (exit_parsing(fl, E_COMM_LEN));
 			ft_strcat(fl->hd.comment, ln);
+			ft_strcat(fl->hd.comment, "\n");
 			ft_strdel(&ln);
 		}
 		if (ft_strhasc(ln, '"') && *(ft_strchr(ln, '"') + 1))
 			return (exit_parsing(fl, E_COMM_EXTRA));
 		ft_strcatto(fl->hd.comment, ln, '"');
+		ft_strdel(&ln);
 	}
 	fl->status |= S_COMM;
 	return (1);
@@ -146,7 +151,7 @@ int			parse_file(char *file)
 	if (!parse_header(&fl, fd))
 		return (0);
 	ft_printf("Header successfully parsed!\n");
-	ft_printf("name: %s\ncomment: %s\n", fl.hd.prog_name, fl.hd.comment);
+	ft_printf("name: %s\ncomment: %s\n\n", fl.hd.prog_name, fl.hd.comment);
 	close(fd);
 	return (1);
 }

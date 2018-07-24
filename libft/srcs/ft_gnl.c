@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/26 12:02:11 by femaury           #+#    #+#             */
-/*   Updated: 2018/06/19 14:56:07 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 20:54:58 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	ft_readline(const int fd, t_list *curr)
 {
-	char	buff[BUFF_SIZE + 1];
+	char	buff[GNL_BUFF_SIZE + 1];
 	int		rd;
 
 	if (read(fd, buff, 0) == -1)
 		return (-1);
-	while ((rd = read(fd, buff, BUFF_SIZE)) > 0)
+	while ((rd = read(fd, buff, GNL_BUFF_SIZE)) > 0)
 	{
 		buff[rd] = '\0';
 		curr->content = ft_strjoin(curr->content, buff);
