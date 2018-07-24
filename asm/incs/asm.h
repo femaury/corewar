@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 20:30:17 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/24 22:34:13 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,7 @@ typedef struct		s_asm_file
 */
 
 int					parse_file(char *file);
+int					parse_header(t_asm_file *fl, int fd);
+int					exit_parsing(t_asm_file *fl, int er);
 
 #endif
