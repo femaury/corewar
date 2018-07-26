@@ -6,26 +6,33 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:35:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:56:17 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/26 21:18:09 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
+static int	exit_parsing_ext(t_asm_file *fl, int er)
+{
+	(void)fl;
+	(void)er;
+	return (0);
+}
+
 int			exit_parsing(t_asm_file *fl, int er)
 {
-	if (er == E_OPEN)
-		ft_printf("Error: Couldn't open file...\n");
+	if ((fl->exit = 1) && er == E_OPEN)
+		ft_printf("ERROR: Couldn't open file...\n");
 	else if (er == E_HEAD_MISS)
-		ft_printf("Error: %s is missing...\n",
+		ft_printf("ERROR: %s is missing...\n",
 				fl->status & S_NAME ? "comment" : "name");
 	else
 	{
-		ft_printf("Error at line %u char %u: ", fl->ln, fl->ch);
+		ft_printf("ERROR [%03u:%03u]: ", fl->ln, fl->ch);
 		if (er == E_HEAD_CMD)
 			ft_printf("Invalid command...");
 		else if (er == E_NAME_OPEN || er == E_COMM_OPEN)
-			ft_printf("%s command takes -> \"STRING\" as argument...\n",
+			ft_printf("%s command takes \"STRING\" as argument...\n",
 					er == E_NAME_OPEN ? ".name" : ".comment");
 		else if (er == E_NAME_LEN || er == E_COMM_LEN)
 			ft_printf("%s is too long...\n",
@@ -33,8 +40,12 @@ int			exit_parsing(t_asm_file *fl, int er)
 		else if (er == E_NAME_EXTRA || er == E_COMM_EXTRA)
 			ft_printf("%s has trailing characters after closing double "
 					"quote...\n", er == E_NAME_EXTRA ? "name" : "comment");
+		else if (er == E_NAME_NOEND || er == E_COMM_NOEND)
+			ft_printf("%s doesn't have a closing quote...\n",
+					er == E_NAME_NOEND ? "name" : "comment");
+		else
+			exit_parsing_ext(fl, er);
 	}
-	fl->exit = 1;
 	return (0);
 }
 

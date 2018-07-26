@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 22:24:31 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:35:26 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/26 21:55:05 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	parse_name_multi_ln(t_asm_file *fl, char *ln, int fd)
 {
+	fl->ch = 0;
 	ft_strcat(fl->hd.prog_name, "\n");
 	while (++fl->ln && ft_gnl(fd, &ln) > 0 && !ft_strhasc(ln, '"'))
 	{
@@ -23,7 +24,9 @@ static int	parse_name_multi_ln(t_asm_file *fl, char *ln, int fd)
 		ft_strcat(fl->hd.prog_name, "\n");
 		ft_strdel(&ln);
 	}
-	if (ft_strhasc(ln, '"') && *(ft_strchr(ln, '"') + 1))
+	if (!ln || !ft_strhasc(ln, '"'))
+		return (exit_parsing(fl, E_NAME_NOEND));
+	if (!ft_strisonly(ft_strchr(ln, '"') + 1, " \t"))
 		return (exit_parsing(fl, E_NAME_EXTRA));
 	ft_strcatto(fl->hd.prog_name, ln, '"');
 	ft_strdel(&ln);
@@ -33,14 +36,17 @@ static int	parse_name_multi_ln(t_asm_file *fl, char *ln, int fd)
 static int	parse_name(t_asm_file *fl, char *ln, int fd)
 {
 	fl->ch = ft_strlen(NAME_CMD_STR);
-	if (ft_strncmp(&ln[fl->ch], " \"", 2))
-		return (exit_parsing(fl, E_NAME_OPEN));
-	fl->ch += 2;
+//	if (ft_strncmp(&ln[fl->ch], " \"", 2))
+//		return (exit_parsing(fl, E_NAME_OPEN));
+	while (ln[fl->ch] && ln[fl->ch] != '"')
+		if (!ft_iswhite(ln[fl->ch++]))
+			return (exit_parsing(fl, E_NAME_OPEN));
+	fl->ch++;
 	if (ft_strlen(ln) - fl->ch > PROG_NAME_LENGTH)
 		return (exit_parsing(fl, E_NAME_LEN));
 	ft_strcpyto(fl->hd.prog_name, ln + fl->ch, '"');
 	fl->ch += ft_strlen(fl->hd.prog_name);
-	if (ln[fl->ch] && ln[fl->ch + 1])
+	if (!ft_strisonly(ln + fl->ch + 1, " \t"))
 		return (exit_parsing(fl, E_NAME_EXTRA));
 	if (!ln[fl->ch])
 		if (!parse_name_multi_ln(fl, ln, fd))
@@ -51,6 +57,7 @@ static int	parse_name(t_asm_file *fl, char *ln, int fd)
 
 static int	parse_comment_multi_ln(t_asm_file *fl, char *ln, int fd)
 {
+	fl->ch = 0;
 	ft_strcat(fl->hd.comment, "\n");
 	while (++fl->ln && ft_gnl(fd, &ln) > 0 && !ft_strhasc(ln, '"'))
 	{
@@ -60,7 +67,9 @@ static int	parse_comment_multi_ln(t_asm_file *fl, char *ln, int fd)
 		ft_strcat(fl->hd.comment, "\n");
 		ft_strdel(&ln);
 	}
-	if (ft_strhasc(ln, '"') && *(ft_strchr(ln, '"') + 1))
+	if (!ln || !ft_strhasc(ln, '"'))
+		return (exit_parsing(fl, E_COMM_NOEND));
+	if (!ft_strisonly(ft_strchr(ln, '"') + 1, " \t"))
 		return (exit_parsing(fl, E_COMM_EXTRA));
 	ft_strcatto(fl->hd.comment, ln, '"');
 	ft_strdel(&ln);
@@ -77,7 +86,7 @@ static int	parse_comment(t_asm_file *fl, char *ln, int fd)
 		return (exit_parsing(fl, E_COMM_LEN));
 	ft_strcpyto(fl->hd.comment, ln + fl->ch, '"');
 	fl->ch += ft_strlen(fl->hd.comment);
-	if (ln[fl->ch] && ln[fl->ch + 1])
+	if (!ft_strisonly(ln + fl->ch + 1, " \t"))
 		return (exit_parsing(fl, E_COMM_EXTRA));
 	if (!ln[fl->ch])
 		if (!parse_comment_multi_ln(fl, ln, fd))

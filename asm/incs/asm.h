@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:56:30 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/26 21:06:39 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@
 # define E_NAME_OPEN			4
 # define E_NAME_LEN				5
 # define E_NAME_EXTRA			6
-# define E_COMM_OPEN			7
-# define E_COMM_LEN				8
-# define E_COMM_EXTRA			9
+# define E_NAME_NOEND			7
+# define E_COMM_OPEN			8
+# define E_COMM_LEN				9
+# define E_COMM_EXTRA			10
+# define E_COMM_NOEND			11
 
 # define S_NAME					(1 << 0)
 # define S_COMM					(1 << 1)

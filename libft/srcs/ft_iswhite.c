@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_main.c                                         :+:      :+:    :+:   */
+/*   ft_iswhite.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 11:57:20 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/26 21:15:35 by femaury          ###   ########.fr       */
+/*   Created: 2018/04/18 18:26:39 by femaury           #+#    #+#             */
+/*   Updated: 2018/07/26 21:47:37 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+#include "libft.h"
 
-int			main(int ac, char **av)
+int		ft_iswhite(int c)
 {
-	int		i;
-
-	i = 0;
-	if (ac > 1)
-		while (++i < ac)
-		{
-			if (ft_stratcmp(av[i], "s", '.'))
-				parse_file(av[i]);
-			else
-				ft_printf("ERROR: %s is not an asm file.\n", av[i]);
-		}
-	else
-		ft_printf("usage: ./asm file_name.s\n"
-				"\tCan take multiple files.\n"
-				"\tAll files need a .s extension.\n");
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 15:07:51 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 22:10:50 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/26 21:45:51 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int				ft_isascii(int c);
 int				ft_isprint(int c);
 int				ft_isupper(int c);
 int				ft_islower(int c);
+int				ft_iswhite(int c);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
 

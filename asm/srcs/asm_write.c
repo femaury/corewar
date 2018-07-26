@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 22:37:35 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/24 23:18:14 by femaury          ###   ########.fr       */
+/*   Updated: 2018/07/26 21:33:38 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	create_binary(t_asm_file *fl, char *file_name)
 	write(fd, &fl->onull, 4);
 	write(fd, &fl->onull, 4); /* Place Holder for Instruction Number */
 	write(fd, fl->hd.comment, COMMENT_LENGTH);
+	ft_printf("Writing output program to %s\n", name);
 	close(fd);
 }
