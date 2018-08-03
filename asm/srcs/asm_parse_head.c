@@ -26,8 +26,14 @@ static int	parse_name_multi_ln(t_asm_file *fl, char *ln, int fd)
 	}
 	if (!ln || !ft_strhasc(ln, '"'))
 		return (exit_parsing(fl, E_NAME_NOEND));
-	if (!ft_strisonly(ft_strchr(ln, '"') + 1, " \t"))
-		return (exit_parsing(fl, E_NAME_EXTRA));
+	while (ln[fl->ch] != '"')
+		fl->ch++;
+	if (ft_strlen(fl->hd.prog_name) + fl->ch > PROG_NAME_LENGTH)
+		return (exit_parsing(fl, E_NAME_LEN));
+	if (ln[++fl->ch])
+		while (ln[fl->ch] && ln[fl->ch] != COMMENT_CHAR)
+			if (!ft_iswhite(ln[fl->ch++]))
+				return (exit_parsing(fl, E_NAME_EXTRA));
 	ft_strcatto(fl->hd.prog_name, ln, '"');
 	ft_strdel(&ln);
 	return (1);
@@ -36,8 +42,6 @@ static int	parse_name_multi_ln(t_asm_file *fl, char *ln, int fd)
 static int	parse_name(t_asm_file *fl, char *ln, int fd)
 {
 	fl->ch = ft_strlen(NAME_CMD_STR);
-//	if (ft_strncmp(&ln[fl->ch], " \"", 2))
-//		return (exit_parsing(fl, E_NAME_OPEN));
 	while (ln[fl->ch] && ln[fl->ch] != '"')
 		if (!ft_iswhite(ln[fl->ch++]))
 			return (exit_parsing(fl, E_NAME_OPEN));
@@ -46,9 +50,14 @@ static int	parse_name(t_asm_file *fl, char *ln, int fd)
 		return (exit_parsing(fl, E_NAME_LEN));
 	ft_strcpyto(fl->hd.prog_name, ln + fl->ch, '"');
 	fl->ch += ft_strlen(fl->hd.prog_name);
-	if (!ft_strisonly(ln + fl->ch + 1, " \t"))
-		return (exit_parsing(fl, E_NAME_EXTRA));
-	if (!ln[fl->ch])
+	if (ln[fl->ch] == '"')
+	{
+		if (ln[++fl->ch])
+			while (ln[fl->ch] && ln[fl->ch] != COMMENT_CHAR)
+				if (!ft_iswhite(ln[fl->ch++]))
+					return (exit_parsing(fl, E_NAME_EXTRA));
+	}
+	else
 		if (!parse_name_multi_ln(fl, ln, fd))
 			return (0);
 	fl->status |= S_NAME;
@@ -69,8 +78,14 @@ static int	parse_comment_multi_ln(t_asm_file *fl, char *ln, int fd)
 	}
 	if (!ln || !ft_strhasc(ln, '"'))
 		return (exit_parsing(fl, E_COMM_NOEND));
-	if (!ft_strisonly(ft_strchr(ln, '"') + 1, " \t"))
-		return (exit_parsing(fl, E_COMM_EXTRA));
+	while (ln[fl->ch] != '"')
+		fl->ch++;
+	if (ft_strlen(fl->hd.comment) + fl->ch > COMMENT_LENGTH)
+		return (exit_parsing(fl, E_COMM_LEN));
+	if (ln[++fl->ch])
+		while (ln[fl->ch] && ln[fl->ch] != COMMENT_CHAR)
+			if (!ft_iswhite(ln[fl->ch++]))
+				return (exit_parsing(fl, E_COMM_EXTRA));
 	ft_strcatto(fl->hd.comment, ln, '"');
 	ft_strdel(&ln);
 	return (1);
@@ -79,16 +94,22 @@ static int	parse_comment_multi_ln(t_asm_file *fl, char *ln, int fd)
 static int	parse_comment(t_asm_file *fl, char *ln, int fd)
 {
 	fl->ch = ft_strlen(COMM_CMD_STR);
-	if (ft_strncmp(&ln[fl->ch], " \"", 2))
-		return (exit_parsing(fl, E_COMM_OPEN));
-	fl->ch += 2;
+	while (ln[fl->ch] && ln[fl->ch] != '"')
+		if (!ft_iswhite(ln[fl->ch++]))
+			return (exit_parsing(fl, E_COMM_OPEN));
+	fl->ch++;
 	if (ft_strlen(ln) - fl->ch > COMMENT_LENGTH)
 		return (exit_parsing(fl, E_COMM_LEN));
 	ft_strcpyto(fl->hd.comment, ln + fl->ch, '"');
 	fl->ch += ft_strlen(fl->hd.comment);
-	if (!ft_strisonly(ln + fl->ch + 1, " \t"))
-		return (exit_parsing(fl, E_COMM_EXTRA));
-	if (!ln[fl->ch])
+	if (ln[fl->ch] == '"')
+	{
+		if (ln[++fl->ch])
+			while (ln[fl->ch] && ln[fl->ch] != COMMENT_CHAR)
+				if (!ft_iswhite(ln[fl->ch++]))
+					return (exit_parsing(fl, E_COMM_EXTRA));
+	}
+	else
 		if (!parse_comment_multi_ln(fl, ln, fd))
 			return (0);
 	fl->status |= S_COMM;

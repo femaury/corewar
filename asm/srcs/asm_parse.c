@@ -30,9 +30,9 @@ int			exit_parsing(t_asm_file *fl, int er)
 	{
 		ft_printf("ERROR [%03u:%03u]: ", fl->ln, fl->ch);
 		if (er == E_HEAD_CMD)
-			ft_printf("Invalid command...");
+			ft_printf("Invalid command...\n");
 		else if (er == E_NAME_OPEN || er == E_COMM_OPEN)
-			ft_printf("%s command takes \"STRING\" as argument...\n",
+			ft_printf("%s command's argument isn't a string.\n",
 					er == E_NAME_OPEN ? ".name" : ".comment");
 		else if (er == E_NAME_LEN || er == E_COMM_LEN)
 			ft_printf("%s is too long...\n",

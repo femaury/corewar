@@ -1,3 +1,2 @@
-.comment "Ha, Ha,
-Ha"
-.name     					"test"		 	 	 	 	 
+.name "Stayin' alive"
+.comment "Ha, Ha, Ha"
