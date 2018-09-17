@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/23 18:35:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/09/16 22:43:57 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/17 20:32:28 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			exit_parsing(t_asm_file *fl, int er)
 				fl->status & S_NAME ? "comment" : "name");
 	else
 	{
-		ft_printf("ERROR [%03u:%03u]: ", fl->ln, fl->ch);
+		ft_printf("ERROR [%03u:%03u]: ", fl->ln + 1, fl->ch);
 		if (er == E_HEAD_CMD)
 			ft_printf("Invalid command...\n");
 		else if (er == E_NAME_OPEN || er == E_COMM_OPEN)
@@ -72,6 +72,8 @@ int			parse_file(char *file_name)
 	if ((fd = open(file_name, O_RDONLY)) < 0)
 		return (exit_parsing(&fl, E_OPEN));
 	if (!parse_header(&fl, fd))
+		return (0);
+	if (!parse_body(&fl, fd))
 		return (0);
 	create_binary(&fl, file_name);
 	close(fd);

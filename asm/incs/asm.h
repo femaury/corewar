@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/26 21:06:39 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/17 20:16:21 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define E_COMM_LEN				9
 # define E_COMM_EXTRA			10
 # define E_COMM_NOEND			11
+# define E_BODY_BADOP			12
 
 # define S_NAME					(1 << 0)
 # define S_COMM					(1 << 1)
@@ -95,6 +96,17 @@ typedef char		t_arg_type;
 **	-------------------------------- STRUCTURES --------------------------------
 */
 
+typedef struct s_op_tab
+{
+	char			*name;
+	unsigned int	opcode;
+	unsigned int	p_count;
+	unsigned int	p_type[3];
+	unsigned int	dir_size;
+	unsigned int	carry;
+
+}				t_op_tab;
+
 typedef struct		s_header
 {
 	unsigned int	magic;
@@ -102,6 +114,29 @@ typedef struct		s_header
 	unsigned int	prog_size;
 	char			comment[COMMENT_LENGTH + 1];
 }					t_header;
+
+typedef struct		s_param
+{
+	char			*label;
+	unsigned int	size;
+	unsigned int	value;
+}					t_param;
+
+typedef struct		s_op
+{
+	char			*label;
+	unsigned int	size;
+	unsigned int	code;
+	unsigned int	cp;
+	t_param			params[3];
+	struct s_inst	*next;
+}					t_op;
+
+typedef struct		s_body
+{
+	unsigned int	inst_size;
+	t_op			op;
+}					t_body;
 
 typedef struct		s_asm_file
 {
@@ -112,6 +147,7 @@ typedef struct		s_asm_file
 	unsigned int	exit;
 	unsigned int	onull;
 	t_header		hd;
+	t_body			bd;
 }					t_asm_file;
 
 /*
@@ -120,7 +156,10 @@ typedef struct		s_asm_file
 
 int					parse_file(char *file_name);
 int					parse_header(t_asm_file *fl, int fd);
+int					parse_body(t_asm_file *fl, int fd);
 int					exit_parsing(t_asm_file *fl, int er);
 void				create_binary(t_asm_file *fl, char *file_name);
+
+extern t_op_tab		g_op_tab[17];
 
 #endif

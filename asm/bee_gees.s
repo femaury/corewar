@@ -1,4 +1,4 @@
-.name "stayin' alive"
+.name       "stayin' alive"
 .comment "Ha, Ha, Ha,"
 	
 sti	r1, %:live, %1			;change live by the right value

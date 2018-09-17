@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 15:07:51 by femaury           #+#    #+#             */
-/*   Updated: 2018/07/26 21:45:51 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/17 16:08:38 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				ft_atoi(const char *str);
 int				ft_strisonly(const char *str, const char *ref);
 int				ft_strisonlyc(const char *str, const char ref);
 int				ft_strisdigit(const char *s);
+int				ft_striswhiteuntil(const char *str, char ref);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
