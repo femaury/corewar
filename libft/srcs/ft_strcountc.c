@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_revbits.c                                       :+:      :+:    :+:   */
+/*   ft_strcountc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/24 15:45:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/11/12 14:09:53 by jabt             ###   ########.fr       */
+/*   Created: 2018/04/18 17:09:33 by femaury           #+#    #+#             */
+/*   Updated: 2018/09/18 21:42:55 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-unsigned int	ft_revbits(unsigned int x)
+int		ft_strcountc(const char *s, char c)
 {
-	return ((x << 24) | ((x & 0xff00) << 8)
-			| ((x >> 8) & 0xff00) | (x >> 24));
+	unsigned int	i;
+	int				count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+		if (s[i++] == c)
+			count++;
+	return (count);
 }

@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_check_wstr.c                                   :+:      :+:    :+:   */
+/*   ft_fill_buffer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/22 11:43:35 by femaury           #+#    #+#             */
-/*   Updated: 2018/05/23 12:22:37 by femaury          ###   ########.fr       */
+/*   Created: 2018/05/12 17:45:30 by femaury           #+#    #+#             */
+/*   Updated: 2018/09/25 17:53:58 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "libftdprintf.h"
 
-int		ftp_check_wstr(t_buffer *buff, wchar_t *wstr)
+void		ftp_fill_buffer(t_buffer *buff, char *str, size_t len)
 {
-	while (*wstr != L'\0')
+	unsigned int	i;
+
+	i = 0;
+	if ((int)len < 0)
+		return ;
+	while (i < len)
 	{
-		if (*wstr > 0x10FFFF || (*wstr >= 0xD800 && *wstr <= 0xDFFF))
+		if (buff->pos == BUFF_SIZE)
 		{
-			buff->error |= 1;
-			return (0);
+			write(buff->fd, buff->str, BUFF_SIZE);
+			ft_strnclr(buff->str, BUFF_SIZE);
+			buff->len += buff->pos;
+			buff->pos = 0;
 		}
-		wstr++;
+		buff->str[buff->pos++] = str[i++];
 	}
-	return (1);
 }

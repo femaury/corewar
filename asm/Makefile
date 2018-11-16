@@ -6,14 +6,15 @@
 #    By: femaury <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/18 20:03:09 by femaury           #+#    #+#              #
-#    Updated: 2018/09/17 20:10:17 by femaury          ###   ########.fr        #
+#    Updated: 2018/11/12 15:27:05 by femaury          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = asm
 SRC_PATH = srcs
 SRC_NAME = asm_main.c asm_op_tab.c asm_parse.c asm_parse_head.c asm_write.c \
-		   asm_parse_body.c
+		   asm_parse_body.c asm_parse_body_ops.c asm_oplist_utils.c \
+		   asm_lablist_utils.c asm_parse_body_2.c asm_free_utils.c
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
 INC_PATH = incs
@@ -21,7 +22,7 @@ INC_NAME = asm.h
 SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 INC = $(addprefix $(INC_PATH)/,$(INC_NAME))
-LIB = ../libft/libft.a ../libft/ft_printf/libftprintf.a
+LIB = ../libft/libft.a ../libft/ft_dprintf/libftdprintf.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I$(INC_PATH)
 

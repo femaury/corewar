@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 12:01:47 by femaury           #+#    #+#             */
-/*   Updated: 2018/05/29 13:08:31 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/25 16:35:16 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ typedef struct	s_buffer
 	unsigned int	len;
 	unsigned int	pos;
 	unsigned int	error: 1;
+	int				fd;
 }				t_buffer;
 
-int				ft_printf(const char *restrict format, ...);
+int				ft_dprintf(int fd, const char *restrict format, ...);
 void			ftp_parsing(char *format, t_buffer *buff, va_list args,
 		int *pos);
 void			ftp_get_arg(t_buffer *buff, va_list args, t_format fstr);

@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 22:24:31 by femaury           #+#    #+#             */
-/*   Updated: 2018/09/17 20:24:35 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/25 18:03:27 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static int	parse_name(t_asm_file *fl, char *ln, int fd)
 			return (exit_parsing(fl, E_NAME_OPEN));
 	fl->ch++;
 	ft_strcpyto(fl->hd.prog_name, ln + fl->ch, '"');
-	if (ft_strlen(fl->hd.prog_name) - (fl->ch - ft_strlen(NAME_CMD_STR))
-			> PROG_NAME_LENGTH)
+	if (ft_strlen(fl->hd.prog_name) > PROG_NAME_LENGTH)
 		return (exit_parsing(fl, E_NAME_LEN));
 	fl->ch += ft_strlen(fl->hd.prog_name);
 	if (ln[fl->ch] == '"')
@@ -71,8 +70,10 @@ static int	parse_name(t_asm_file *fl, char *ln, int fd)
 					return (exit_parsing(fl, E_NAME_EXTRA));
 	}
 	else
+	{
 		if (!parse_name_multi_ln(fl, ln, fd))
 			return (0);
+	}
 	fl->status |= S_NAME;
 	return (1);
 }
@@ -149,7 +150,7 @@ static int	parse_comment(t_asm_file *fl, char *ln, int fd)
 			return (exit_parsing(fl, E_COMM_OPEN));
 	fl->ch++;
 	ft_strcpyto(fl->hd.comment, ln + fl->ch, '"');
-	if (ft_strlen(fl->hd.comment) - fl->ch > COMMENT_LENGTH)
+	if (ft_strlen(fl->hd.comment) > COMMENT_LENGTH)
 		return (exit_parsing(fl, E_COMM_LEN));
 	fl->ch += ft_strlen(fl->hd.comment);
 	if (ln[fl->ch] == '"')
@@ -160,8 +161,10 @@ static int	parse_comment(t_asm_file *fl, char *ln, int fd)
 					return (exit_parsing(fl, E_COMM_EXTRA));
 	}
 	else
+	{
 		if (!parse_comment_multi_ln(fl, ln, fd))
 			return (0);
+	}
 	fl->status |= S_COMM;
 	return (1);
 }
@@ -191,12 +194,12 @@ int			parse_header(t_asm_file *fl, int fd)
 			else
 				return (exit_parsing(fl, E_HEAD_CMD));
 		}
-		else if (ln[0])
+		else if (ln[0] && ln[0] != COMMENT_CHAR)
 			return (exit_parsing(fl, E_HEAD_MISS));
 		ft_strdel(&ln);
 		if (fl->exit || fl->status == (S_NAME | S_COMM))
 			return (fl->exit ? 0 : 1);
 		fl->ln++;
 	}
-	return (1);
+	return (fl->status == (S_NAME | S_COMM) ? 1 : exit_parsing(fl, E_EMPTY));
 }

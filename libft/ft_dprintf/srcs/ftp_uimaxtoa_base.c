@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pad_buffer.c                                    :+:      :+:    :+:   */
+/*   ftp_uimaxtoa_base.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/12 17:45:30 by femaury           #+#    #+#             */
-/*   Updated: 2018/05/22 15:32:54 by femaury          ###   ########.fr       */
+/*   Created: 2018/04/21 14:09:39 by femaury           #+#    #+#             */
+/*   Updated: 2018/09/25 17:56:21 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "libftdprintf.h"
 
-void		ftp_pad_buffer(t_buffer *buff, char pad, size_t len)
+char		*ftp_uimaxtoa_base(uintmax_t n, int base)
 {
-	unsigned int	i;
+	int			ilen;
+	static char	str[21];
+	uintmax_t	nb;
 
-	i = 0;
-	if ((int)len < 0)
-		return ;
-	while (i < len)
+	nb = n;
+	if (base < 2 || base > 16)
+		return (NULL);
+	ilen = (nb == 0 ? 1 : 0);
+	while (nb && ++ilen)
+		nb /= base;
+	str[ilen] = '\0';
+	while (ilen--)
 	{
-		if (buff->pos == BUFF_SIZE)
-		{
-			write(1, buff->str, BUFF_SIZE);
-			ft_strnclr(buff->str, BUFF_SIZE);
-			buff->len += buff->pos;
-			buff->pos = 0;
-		}
-		buff->str[buff->pos++] = pad;
-		i++;
+		str[ilen] = (n % base) + (n % base > 9 ? '7' : '0');
+		n /= base;
 	}
+	return (str);
 }

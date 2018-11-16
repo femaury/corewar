@@ -6,7 +6,7 @@
 #    By: femaury <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/18 20:03:09 by femaury           #+#    #+#              #
-#    Updated: 2018/09/17 16:09:02 by femaury          ###   ########.fr        #
+#    Updated: 2018/11/07 16:33:35 by femaury          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRC_NAME = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		   ft_strtabsize.c ft_lstappend.c ft_lstdelfirst.c ft_lstcpy.c \
 		   ft_strjoin_split.c ft_strisdigit.c ft_strchrrev.c ft_stratcmp.c \
 		   ft_revbits.c ft_strcpyto.c ft_strcatto.c ft_iswhite.c \
-		   ft_striswhiteuntil.c
+		   ft_striswhiteuntil.c ft_splitwhite.c ft_strcountc.c ft_skipnwhite.c \
+		   ft_strstrip.c ft_rev2bits.c ft_strclrfrom.c
 OBJ_PATH = objs
 OBJ_NAME = $(SRC_NAME:.c=.o)
 INC_PATH = incs
@@ -54,7 +55,7 @@ ECHO = echo "\r[\033[33m`expr $C '*' 100 / $T`%\033[0m] \
 
 all:
 	@$(MAKE) $(NAME)
-	@$(MAKE) -C ft_printf/
+	@$(MAKE) -C ft_dprintf/
 
 $(NAME): $(OBJ)
 	@ar rc $@ $^
@@ -70,7 +71,7 @@ clean:
 ifeq ($(MAKECMDGOALS), clean)
 	@$(RM) $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	@$(MAKE) -C ft_printf/ clean
+	@$(MAKE) -C ft_dprintf/ clean
 	@echo "[\033[32mOK\033[0m] $(NAME) objects cleaned."
 else
 	@$(RM) $(OBJ)
@@ -80,7 +81,7 @@ endif
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(MAKE) -C ft_printf/ fclean
+	@$(MAKE) -C ft_dprintf/ fclean
 	@echo "[\033[32mOK\033[0m] $(NAME) \033[31mhas been removed.\033[0m"
 
 re: fclean all

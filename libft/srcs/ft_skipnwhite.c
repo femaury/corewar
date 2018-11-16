@@ -1,19 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_revbits.c                                       :+:      :+:    :+:   */
+/*   ft_skipnwhite.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/24 15:45:34 by femaury           #+#    #+#             */
-/*   Updated: 2018/11/12 14:09:53 by jabt             ###   ########.fr       */
+/*   Created: 2018/09/18 22:22:16 by femaury           #+#    #+#             */
+/*   Updated: 2018/09/19 17:04:41 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-unsigned int	ft_revbits(unsigned int x)
+char	*ft_skipnwhite(char *str, int nb)
 {
-	return ((x << 24) | ((x & 0xff00) << 8)
-			| ((x >> 8) & 0xff00) | (x >> 24));
+	unsigned int	i;
+	int				j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (!ft_iswhite(str[i]))
+		{
+			if (j == nb)
+				return (str + i);
+			while (str[i] && !ft_iswhite(str[i]))
+				i++;
+			j++;
+		}
+		else
+			i++;
+	}
+	return (str);
 }

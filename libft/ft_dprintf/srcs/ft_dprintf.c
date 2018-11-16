@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 12:00:35 by femaury           #+#    #+#             */
-/*   Updated: 2018/05/23 11:25:47 by femaury          ###   ########.fr       */
+/*   Updated: 2018/09/25 17:53:31 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "libftdprintf.h"
 
 static void	ft_readformat(char *format, t_buffer *buff, va_list args)
 {
@@ -41,7 +41,7 @@ static void	ft_readformat(char *format, t_buffer *buff, va_list args)
 		ftp_fill_buffer(buff, format + start, pos - start);
 }
 
-int			ft_printf(const char *restrict format, ...)
+int			ft_dprintf(int fd, const char *restrict format, ...)
 {
 	va_list		args;
 	t_buffer	buff;
@@ -50,11 +50,12 @@ int			ft_printf(const char *restrict format, ...)
 	buff.len = 0;
 	buff.pos = 0;
 	buff.error = 0;
+	buff.fd = fd;
 	va_start(args, format);
 	ft_readformat((char *)format, &buff, args);
 	va_end(args);
 	if (buff.pos)
-		write(1, buff.str, buff.pos);
+		write(buff.fd, buff.str, buff.pos);
 	buff.len += buff.pos;
 	return (buff.error ? -1 : buff.len);
 }

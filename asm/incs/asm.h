@@ -6,7 +6,7 @@
 /*   By: femaury <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/09 15:49:58 by femaury           #+#    #+#             */
-/*   Updated: 2018/09/17 20:16:21 by femaury          ###   ########.fr       */
+/*   Updated: 2018/11/12 15:57:48 by femaury          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,23 @@
 */
 
 # define E_OPEN 				1
-# define E_HEAD_MISS 			2
-# define E_HEAD_CMD 			3
-# define E_NAME_OPEN			4
-# define E_NAME_LEN				5
-# define E_NAME_EXTRA			6
-# define E_NAME_NOEND			7
-# define E_COMM_OPEN			8
-# define E_COMM_LEN				9
-# define E_COMM_EXTRA			10
-# define E_COMM_NOEND			11
-# define E_BODY_BADOP			12
+# define E_CREATE				2
+# define E_MALLOC				3
+# define E_EMPTY				4
+# define E_HEAD_MISS 			5
+# define E_HEAD_CMD 			6
+# define E_NAME_OPEN			7
+# define E_NAME_LEN				8
+# define E_NAME_EXTRA			9
+# define E_NAME_NOEND			10
+# define E_COMM_OPEN			11
+# define E_COMM_LEN				12
+# define E_COMM_EXTRA			13
+# define E_COMM_NOEND			14
+# define E_BODY_BADOP			15
+# define E_BODY_PARAM			16
+# define E_BODY_LB_NAME			17
+# define E_BODY_LB_CALL			18
 
 # define S_NAME					(1 << 0)
 # define S_COMM					(1 << 1)
@@ -67,7 +73,8 @@
 # define COMMENT_CHAR			'#'
 # define LABEL_CHAR				':'
 # define DIRECT_CHAR			'%'
-# define SEPARATOR_CHAR			','
+# define REG_CHAR				'r'
+# define SEPAR_CHAR				','
 
 # define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
 
@@ -96,7 +103,7 @@ typedef char		t_arg_type;
 **	-------------------------------- STRUCTURES --------------------------------
 */
 
-typedef struct s_op_tab
+typedef struct		s_op_tab
 {
 	char			*name;
 	unsigned int	opcode;
@@ -104,8 +111,8 @@ typedef struct s_op_tab
 	unsigned int	p_type[3];
 	unsigned int	dir_size;
 	unsigned int	carry;
-
-}				t_op_tab;
+	unsigned int	ocp;
+}					t_op_tab;
 
 typedef struct		s_header
 {
@@ -118,24 +125,32 @@ typedef struct		s_header
 typedef struct		s_param
 {
 	char			*label;
+	unsigned int	type;
 	unsigned int	size;
 	unsigned int	value;
 }					t_param;
 
 typedef struct		s_op
 {
-	char			*label;
 	unsigned int	size;
-	unsigned int	code;
-	unsigned int	cp;
+	unsigned int	line;
+	t_op_tab		info;
 	t_param			params[3];
-	struct s_inst	*next;
+	struct s_op		*next;
 }					t_op;
+
+typedef struct		s_label
+{
+	char			*s;
+	unsigned int	size;
+	struct s_label	*next;
+}					t_label;
 
 typedef struct		s_body
 {
-	unsigned int	inst_size;
-	t_op			op;
+	unsigned int	op_size;
+	t_op			*op;
+	t_label			*label;
 }					t_body;
 
 typedef struct		s_asm_file
@@ -157,8 +172,26 @@ typedef struct		s_asm_file
 int					parse_file(char *file_name);
 int					parse_header(t_asm_file *fl, int fd);
 int					parse_body(t_asm_file *fl, int fd);
+int					get_params(t_asm_file *fl, char **params,
+						int count, t_op *op);
+int					get_label(t_asm_file *fl, char *str);
+int					find_operation(t_asm_file *fl, char *str, t_op *op);
 int					exit_parsing(t_asm_file *fl, int er);
 void				create_binary(t_asm_file *fl, char *file_name);
+
+t_op				*new_op(void);
+void				add_op(t_op **head, t_op *new);
+int					size_op(t_op **head);
+int					sizeto_op(t_op **head, t_op *ref);
+
+t_label				*new_label(char *label, unsigned int size);
+void				add_label(t_label **head, t_label *new);
+int					get_label_size(t_label **head, char *label);
+int					check_labels(t_asm_file *fl, t_op **ophd, t_label **labhd);
+
+int					free_params(int ret, char **params, size_t size);
+void				free_labels(t_label **lst);
+void				free_ops(t_op **lst);
 
 extern t_op_tab		g_op_tab[17];
 
