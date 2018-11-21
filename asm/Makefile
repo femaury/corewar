@@ -6,7 +6,7 @@
 #    By: femaury <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/18 20:03:09 by femaury           #+#    #+#              #
-#    Updated: 2018/11/12 15:27:05 by femaury          ###   ########.fr        #
+#    Updated: 2018/11/21 12:55:05 by femaury          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ C = $(words $N)$(eval N := x $N)
 ECHO = echo "\r[\033[33m`expr $C '*' 100 / $T`%\033[0m] \
 	   Compiling \033[35m$(NAME)\033[0m...\c"
 
-.PHONY: all, clean, fclean, re
+.PHONY: all, clean, fclean, re, sanitize
 
 all: $(NAME)
 
@@ -58,3 +58,7 @@ ifeq ($(MAKECMDGOALS), re)
 endif
 
 re: fclean all
+
+sanitize: $(OBJ) $(LIB)
+	@$(CC) -fsanitize=address $(CFLAGS) -o $(NAME) $(OBJ) $(LIB)
+	@echo "\r[\033[32m100%\033[0m] \033[35m$(NAME)\033[0m is ready! -- \033[31mFLAG SANITIZE\033[0m"
